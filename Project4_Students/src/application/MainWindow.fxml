@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <Pane prefHeight="400.0" prefWidth="167.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutY="7.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" text="Check Out Record" />
+            <Button layoutY="34.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" text="Members" />
+            <Button layoutY="88.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" text="Users" />
+            <Button layoutY="61.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" text="Books" />
+            <Button layoutY="225.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" text="Button" />
+            <Button layoutY="373.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" text="Exit" />
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="CheckOut">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.8931506849315068" layoutX="85.0" layoutY="14.0" orientation="VERTICAL" prefHeight="367.0" prefWidth="433.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane>
+                                 <children>
+                                    <TableView layoutX="72.0" layoutY="21.0" prefHeight="322.0" prefWidth="431.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn prefWidth="75.0" text="C1" />
+                                        <TableColumn prefWidth="75.0" text="C2" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane>
+                                 <children>
+                                    <Button layoutX="339.0" layoutY="4.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Extend" />
+                                    <Button layoutX="253.0" layoutY="4.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" text="Check In" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Members">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.8876712328767123" layoutX="23.0" layoutY="14.0" orientation="VERTICAL" prefHeight="367.0" prefWidth="433.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <TableView layoutX="74.0" layoutY="14.0" prefHeight="320.0" prefWidth="431.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn prefWidth="75.0" text="C1" />
+                                        <TableColumn prefWidth="75.0" text="C2" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Button layoutX="347.0" layoutY="5.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Delete" />
+                                    <Button layoutX="194.0" layoutY="5.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="New" />
+                                    <Button layoutX="270.0" layoutY="5.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Edit" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Books">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.9013698630136986" layoutX="65.0" layoutY="21.0" orientation="VERTICAL" prefHeight="367.0" prefWidth="433.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <TableView layoutX="71.0" layoutY="40.0" prefHeight="323.0" prefWidth="431.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn prefWidth="75.0" text="C1" />
+                                        <TableColumn prefWidth="75.0" text="C2" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="32.0" prefWidth="431.0">
+                                 <children>
+                                    <Button layoutX="191.0" layoutY="3.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="New" />
+                                    <Button layoutX="269.0" layoutY="3.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Edit" />
+                                    <Button layoutX="347.0" layoutY="3.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Delete" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
