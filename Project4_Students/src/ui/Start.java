@@ -35,7 +35,7 @@ public class Start extends Application {
 	
 	public static class Colors {
 		static Color green = Color.web("#034220");
-		static Color red = Color.FIREBRICK;
+		public static Color red = Color.FIREBRICK;
 	}
 	
 	private static Stage[] allWindows = { 
