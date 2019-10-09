@@ -30,6 +30,8 @@ public class MainWindow {
 	@FXML private Tab tabUsers;
 	@FXML private TabPane tabPane;
 	
+	@FXML private Button btnBooks;
+	
 	@FXML private TableView<BookData> tvBook;
 	@FXML private TableView<?> tvBookCopy;
 
