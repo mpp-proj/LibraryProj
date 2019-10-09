@@ -1,5 +1,6 @@
 package dataaccess;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import business.Address;
 import business.Author;
 import business.Book;
+import business.CheckOutEntry;
 import business.LibraryMember;
 
 
@@ -51,7 +53,6 @@ public class TestData {
 		}
 	};
 	
-	
 
 	@SuppressWarnings("serial")
 	List<User> allUsers = new ArrayList<User>() {
@@ -70,6 +71,7 @@ public class TestData {
 		DataAccess da = new DataAccessFacade();
 		System.out.println(da.readBooksMap());
 		System.out.println(da.readUserMap());
+		da.saveNewCheckoutRecord(new CheckOutEntry(td.allBooks.get(0), td.allBooks.get(0).getNextAvailableCopy(), td.members.get(0), LocalDate.now()));
 	}
 	///create books
 	public void bookData() {
@@ -102,9 +104,7 @@ public class TestData {
 		libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7));
 		members.add(libraryMember);
 		
-		DataAccessFacade.loadMemberMap(members);
-		
-		
+		DataAccessFacade.loadMemberMap(members);		
 	}
 		
 	

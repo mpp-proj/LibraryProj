@@ -28,9 +28,18 @@ public class MainWindow {
 	@FXML private Tab tabMembers;
 	@FXML private Tab tabBooks;
 	@FXML private Tab tabUsers;
+	//@FXML private TabPane tabPane;
+	
+	//@FXML private Button btnBooks;
+	
+	//@FXML private TableView<BookData> tvBook;
+	//@FXML private TableView<?> tvBookCopy;
 	@FXML private TabPane tabPane;
 	
 	@FXML private Button btnBooks;
+	@FXML private Button btnCheckoutRecords;
+	@FXML private Button btnMembers;
+	@FXML private Button btnUsers;
 	
 	@FXML private TableView<BookData> tvBook;
 	@FXML private TableView<?> tvBookCopy;
