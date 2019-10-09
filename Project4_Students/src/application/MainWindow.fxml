@@ -16,7 +16,7 @@
                   <Separator prefHeight="6.0" prefWidth="347.0" />
                   <Button id="btnMembers" mnemonicParsing="false" onAction="#toggleTabs" prefHeight="60.0" prefWidth="351.0" text="Members" />
                   <Separator prefHeight="6.0" prefWidth="353.0" />
-                  <Button id="btnBooks" mnemonicParsing="false" onAction="#toggleTabs" prefHeight="60.0" prefWidth="351.0" text="Books" />
+                  <Button id="btnBooks" mnemonicParsing="false" onAction="#listBooks" prefHeight="60.0" prefWidth="351.0" text="Books" />
                   <Separator prefHeight="6.0" prefWidth="353.0" />
                   <Button id="btnUsers" mnemonicParsing="false" onAction="#toggleTabs" prefHeight="60.0" prefWidth="351.0" text="Users" />
                </children>
@@ -42,7 +42,21 @@
                             </Tab>
                               <Tab fx:id="tabBooks" closable="false" disable="true" text="Books">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView fx:id="tvBook" layoutX="14.0" layoutY="14.0" prefHeight="702.0" prefWidth="470.0">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="C1" />
+                                              <TableColumn prefWidth="75.0" text="C2" />
+                                            </columns>
+                                          </TableView>
+                                          <TableView fx:id="tvBookCopy" layoutX="494.0" layoutY="14.0" prefHeight="703.0" prefWidth="319.0">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="C1" />
+                                              <TableColumn prefWidth="75.0" text="C2" />
+                                            </columns>
+                                          </TableView>
+                                       </children></AnchorPane>
                                 </content>
                               </Tab>
                               <Tab fx:id="tabUsers" closable="false" disable="true" text="Users">
