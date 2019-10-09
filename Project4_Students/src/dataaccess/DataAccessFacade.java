@@ -10,15 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import business.Book;
-import business.BookCopy;
+import business.CheckOutEntry;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS, RECORDS;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
@@ -31,6 +30,13 @@ public class DataAccessFacade implements DataAccess {
 		String memberId = member.getMemberId();
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);	
+	}
+	
+	public void saveNewCheckoutRecord(CheckOutEntry entry) {
+		HashMap<String, CheckOutEntry> recs = readCheckoutRecordMap();
+		String recordId = entry.getCopy().getBook().getIsbn() + entry.getCopy().getCopyNum();
+		recs.put(recordId, entry);
+		saveToStorage(StorageType.RECORDS, recs);	
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -46,6 +52,14 @@ public class DataAccessFacade implements DataAccess {
 		//   memberId -> LibraryMember
 		return (HashMap<String, LibraryMember>) readFromStorage(
 				StorageType.MEMBERS);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public HashMap<String, CheckOutEntry> readCheckoutRecordMap() {
+		//Returns a Map with name/value pairs being
+		//   memberId -> LibraryMember
+		return (HashMap<String, CheckOutEntry>) readFromStorage(
+				StorageType.RECORDS);
 	}
 	
 	
