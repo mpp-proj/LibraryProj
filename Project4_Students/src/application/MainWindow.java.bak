@@ -1,6 +1,5 @@
 package application;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -32,8 +30,6 @@ import dataaccess.DataAccessFacade;
 import business.BaseController;
 import business.Book;
 import business.BookCopy;
-import business.ControllerInterface;
-import business.LoginException;
 import business.CheckOutEntry;
 import business.LibraryMember;
 import business.MemberRecords;
@@ -69,7 +65,7 @@ public class MainWindow {
 	@FXML
 	private TableView<BookData> tvBook;
 	@FXML
-	private TableView<BookData> tvBookCopy;
+	private TableView<?> tvBookCopy;
 
 	@FXML
 	private TableView<BookRecords> tblCheckOutRecords;
@@ -97,25 +93,6 @@ public class MainWindow {
 	/***********************************************************************/
 	// member table
 
-	@FXML
-	private Button btnAddCopy;
-	@FXML
-	private TableColumn<BookData, String> colBTitle;
-	@FXML
-	private TableColumn<BookData, String> colBAuth;
-	@FXML
-	private TableColumn<BookData, String> colBIsdn;
-	@FXML
-	private TableColumn<BookData, String> colBAvNm;
-	@FXML
-	private TableColumn<BookData, String> colBMaxD;
-
-	@FXML
-	private TableColumn<BookData, String> colBCId;
-	@FXML
-	private TableColumn<BookData, String> colBCIA;
-
-	private ObservableList<BookData> data;
 	@FXML
 	private TableView<MemberRecords> tblMembers;
 	@FXML
@@ -177,22 +154,11 @@ public class MainWindow {
 		tabs[1] = tabMembers;
 		tabs[2] = tabBooks;
 		tabs[3] = tabUsers;
-		colBTitle.setCellValueFactory(new PropertyValueFactory<BookData, String>("title"));
-		colBAuth.setCellValueFactory(new PropertyValueFactory<BookData, String>("authors"));
-		colBIsdn.setCellValueFactory(new PropertyValueFactory<BookData, String>("isbn"));
-		colBAvNm.setCellValueFactory(new PropertyValueFactory<BookData, String>("number"));
-		colBMaxD.setCellValueFactory(new PropertyValueFactory<BookData, String>("maxDay"));
 
-		colBCId.setCellValueFactory(new PropertyValueFactory<BookData, String>("copyNum"));
-		colBCIA.setCellValueFactory(new PropertyValueFactory<BookData, String>("isAvailable"));
-		reloadBook();
 		TableViewLoad();
 		toggleAuth();
 	}
-	
-	public void reloadBook() {
-		tvBook.setItems(listBooks());
-	}
+
 	private void toggleAuth() {
 		switch (SystemController.currentAuth) {
 		case LIBRARIAN:
@@ -230,89 +196,10 @@ public class MainWindow {
 			if (t.getId().endsWith(btn.getId().substring(3))) {
 				t.setDisable(false);
 				tabPane.getSelectionModel().select(t);
-				if (btn.getId().equals("btnBooks"))
-					reloadBook();
 			}
 		}
 	}
 
-	public ObservableList<BookData> listBooks() {
-		daf = new DataAccessFacade();
-		data = FXCollections.observableArrayList();
-		bookMap = new HashMap<String, Book>();
-		bookMap = daf.readBooksMap();
-		List<BookData> bdList = new ArrayList<BookData>();
-		bookMap.forEach((s, b) -> bdList.add(new BookData(b)));
-		bdList.forEach((e) -> data.add(e));
-		return data;
-	}
-	public void addBook(ActionEvent event) throws Exception {
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/application/AddBook.fxml"));
-			Scene scene = new Scene(root, 400, 450);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			Stage stg = new Stage();
-			stg.setTitle("Add Book");
-			stg.setMaximized(false);
-			stg.setScene(scene);
-			stg.show();
-		} catch (Exception ex) {
-
-		}
-	}
-
-	public void editBook(ActionEvent event) throws Exception {
-		try {
-
-			BookData bd = tvBook.getSelectionModel().getSelectedItem();
-			String selectedBookIsbn = bd.getIsbn();
-
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/AddBook.fxml"));
-			Parent root = loader.load();
-			Scene scene = new Scene(root, 400, 450);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			Stage stg = new Stage();
-			stg.setTitle("Edit Book");
-			stg.setResizable(false);
-			stg.setScene(scene);
-
-			AddBook controller = loader.<AddBook>getController();
-			controller.initData(selectedBookIsbn);
-			stg.show();
-
-		} catch (Exception ex) {
-
-		}
-	}
-
-	public void getCopies(MouseEvent evt) throws Exception {
-
-		ObservableList<BookData> copyList = FXCollections.observableArrayList();
-		BookData tmpBd;
-		BookData bd = tvBook.getSelectionModel().getSelectedItem();
-
-		Book book = daf.readBooksMap().get(bd.getIsbn());
-
-		BookCopy[] copies = book.getCopies();
-
-		for (BookCopy bc : copies) {
-			tmpBd = new BookData();
-			tmpBd.setCopyNum(String.valueOf(bc.getCopyNum()));
-			tmpBd.setIsAvailable(String.valueOf(bc.isAvailable()));
-			copyList.add(tmpBd);
-		}
-		tvBookCopy.setItems(copyList);
-
-	}
-
-	public void addCopy(ActionEvent evt) {
-		daf = new DataAccessFacade();
-		BookData bd = tvBook.getSelectionModel().getSelectedItem();
-		Book book = daf.readBooksMap().get(bd.getIsbn());
-		book.addCopy();
-		daf.updateBook(book);
-	}
-	
 	public void TableViewLoad() {
 		tblCheckOutRecords.getItems().clear();
 		tblCheckOutRecords.setItems(getTicketData());
@@ -320,7 +207,6 @@ public class MainWindow {
 		tblMembers.getItems().clear();
 		tblMembers.setItems(getMemberData());
 	}
-	
 
 	public ObservableList<BookRecords> getTicketData() {
 		BookRecords br = new BookRecords();
@@ -399,8 +285,8 @@ public class MainWindow {
 			height = 500;
 			break;
 		case "tabBooks":
-			source = "/application/AddBook.fxml";
-			height = 450;
+			source = "/application/MainWindow.fxml";
+			height = 400;
 			width = 400;
 			break;
 		default:
@@ -433,8 +319,7 @@ public class MainWindow {
 				MemberRecords mr = tblMembers.getSelectionModel().getSelectedItem();
 				recordId = mr.getMemberId();
 			} else if (windowName.equalsIgnoreCase("tabBooks")) {
-				BookData bd = tvBook.getSelectionModel().getSelectedItem();
-				recordId =  bd.getIsbn();
+
 			} else {
 
 			}
@@ -454,7 +339,6 @@ public class MainWindow {
 			controller = loader.<MemberController>getController();
 			break;
 		case "tabBooks":
-			controller = loader.<AddBook>getController();
 			break;
 		}
 		controller.initData(recordId);
