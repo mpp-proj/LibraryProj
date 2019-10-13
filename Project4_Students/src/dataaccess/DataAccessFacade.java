@@ -129,7 +129,7 @@ public class DataAccessFacade implements DataAccess {
 	
 	static void loadAuthorMap(List<Author> authorList) {
 		HashMap<String, Author> authors = new HashMap<String, Author>();
-		authorList.forEach(author -> authors.put(author.getBio(), author));
+		authorList.forEach(author -> authors.put(author.getFirstName()+author.getLastName(), author));
 		saveToStorage(StorageType.AUTHORS, authors);
 	}
 	

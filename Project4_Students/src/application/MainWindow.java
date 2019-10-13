@@ -29,6 +29,8 @@ import java.util.List;
 
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
+import business.Author;
+import business.AuthorRecord;
 import business.BaseController;
 import business.Book;
 import business.BookCopy;
@@ -134,7 +136,28 @@ public class MainWindow {
 	private TableColumn<MemberRecords, String> clmState;
 	@FXML
 	private TableColumn<MemberRecords, String> clmZip;
-
+	
+	/***********************************************************************************************/
+	// Author
+	@FXML
+	private TableView<AuthorRecord> tblAuthor;
+	@FXML
+	private TableColumn<AuthorRecord, String> clmAuthFName;
+	@FXML
+	private TableColumn<AuthorRecord, String> clmAuthLName;
+	@FXML
+	private TableColumn<AuthorRecord, String> clmAuthTel;
+	@FXML
+	private TableColumn<AuthorRecord, String> clmAuthBio;
+	@FXML
+	private TableColumn<AuthorRecord, String> clmAuthStreet;
+	@FXML
+	private TableColumn<AuthorRecord, String> clmAuthCity;
+	@FXML
+	private TableColumn<AuthorRecord, String> clmAuthState;
+	@FXML
+	private TableColumn<AuthorRecord, String> clmAuthZip;
+	
 	@FXML
 	private Button btnNew;
 	@FXML
@@ -149,8 +172,20 @@ public class MainWindow {
 	private TextField txtSearchCheckOutRecords;
 	@FXML
 	private Button btnSearchCheckOut;
+	@FXML 
+	private Button btnPrintRecords;
+	
+	@FXML
+	private TextField txtAuthBio;
+	@FXML
+	private TextField txtAuthFName;
+	@FXML
+	private TextField txtAuthLName;
+	@FXML
+	private TextField txtAuthPhone;
 
 	ObservableList<BookRecords> recordData = FXCollections.observableArrayList();
+	ObservableList<BookRecords> searchData = FXCollections.observableArrayList();
 
 	public void initialize() {
 		clmISBN.setCellValueFactory(new PropertyValueFactory<BookRecords, String>("isbn"));
@@ -172,6 +207,17 @@ public class MainWindow {
 		clmCity.setCellValueFactory(new PropertyValueFactory<MemberRecords, String>("city"));
 		clmState.setCellValueFactory(new PropertyValueFactory<MemberRecords, String>("state"));
 		clmZip.setCellValueFactory(new PropertyValueFactory<MemberRecords, String>("zip"));
+		
+		clmAuthBio.setCellValueFactory(new PropertyValueFactory<AuthorRecord, String>("bio"));
+		clmAuthFName.setCellValueFactory(new PropertyValueFactory<AuthorRecord, String>("fname"));
+		clmAuthLName.setCellValueFactory(new PropertyValueFactory<AuthorRecord, String>("lname"));
+		clmAuthTel.setCellValueFactory(new PropertyValueFactory<AuthorRecord, String>("tel"));
+		clmAuthStreet.setCellValueFactory(new PropertyValueFactory<AuthorRecord, String>("street"));
+		clmAuthCity.setCellValueFactory(new PropertyValueFactory<AuthorRecord, String>("city"));
+		clmAuthState.setCellValueFactory(new PropertyValueFactory<AuthorRecord, String>("state"));
+		clmAuthZip.setCellValueFactory(new PropertyValueFactory<AuthorRecord, String>("zip"));
+		
+		
 
 		tabs[0] = tabCheckoutRecords;
 		tabs[1] = tabMembers;
@@ -319,6 +365,9 @@ public class MainWindow {
 
 		tblMembers.getItems().clear();
 		tblMembers.setItems(getMemberData());
+		
+		tblAuthor.getItems().clear();
+		tblAuthor.setItems(getAuthorData());
 	}
 	
 
@@ -362,6 +411,26 @@ public class MainWindow {
 		}
 		return memberData;
 	}
+	
+	public ObservableList<AuthorRecord> getAuthorData() {
+		ObservableList<AuthorRecord> authorData = FXCollections.observableArrayList();
+		AuthorRecord mr = new AuthorRecord();
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Author> records = da.readAuthorMap();
+		for (Author co : records.values()) {
+			mr.setBio(String.valueOf(co.getBio()));
+			mr.setFname(co.getFirstName());
+			mr.setLname(co.getLastName());
+			mr.setTel(co.getTelephone());
+			mr.setStreet(co.getAddress().getState());
+			mr.setCity(co.getAddress().getCity());
+			mr.setState(co.getAddress().getState());
+			mr.setZip(co.getAddress().getZip());
+			authorData.add(mr);
+			mr = new AuthorRecord();
+		}
+		return authorData;
+	}
 
 	public void openEditWindow(ActionEvent evt) {
 		for (Tab t : tabs) {
@@ -404,11 +473,10 @@ public class MainWindow {
 			width = 400;
 			break;
 		default:
-			source = "/application/MainWindow.fxml";
-			height = 400;
+			source = "/ui/Authors.fxml";
 			width = 400;
+			height = 500;
 			break;
-
 		}
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(source));
@@ -436,7 +504,8 @@ public class MainWindow {
 				BookData bd = tvBook.getSelectionModel().getSelectedItem();
 				recordId =  bd.getIsbn();
 			} else {
-
+				AuthorRecord bd = tblAuthor.getSelectionModel().getSelectedItem();
+				recordId =  bd.getFname() + bd.getLname();
 			}
 		}
 		root = loader.load();
@@ -456,19 +525,22 @@ public class MainWindow {
 		case "tabBooks":
 			controller = loader.<AddBook>getController();
 			break;
+		case "tabUsers":
+			controller = loader.<AuthorController>getController();
+			break;
 		}
 		controller.initData(recordId);
 		stg.show();
 	}
 
 	public void findMemberInCheckoutRecords(ActionEvent evt) {
-		ObservableList<BookRecords> searchData = FXCollections.observableArrayList();
 		String memberID = txtSearchCheckOutRecords.getText();
 		if(memberID == null || memberID.equals(""))
 		{
 			TableViewLoad();
 			return;
 		}
+		searchData.clear();
 		BookRecords br = new BookRecords();
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, CheckOutEntry> records = da.readCheckoutRecordMap();
@@ -490,5 +562,20 @@ public class MainWindow {
 		}
 		tblCheckOutRecords.getItems().clear();
 		tblCheckOutRecords.setItems(searchData);
+	}
+	
+	public void printRecords(ActionEvent av)
+	{
+		for(BookRecords br: searchData)
+			System.out.println(br);
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setHeaderText("Successfully printe");
+		alert.setContentText("Printing checkout record has been done. Please check your console.");
+		alert.showAndWait().ifPresent(rs -> {
+			if (rs == ButtonType.OK) {
+				System.out.println("Pressed Ok.");
+			}
+		});
 	}
 }

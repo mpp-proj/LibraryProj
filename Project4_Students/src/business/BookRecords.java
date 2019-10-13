@@ -72,5 +72,37 @@ public class BookRecords {
 		this.returnedDate = returnedDate;
 	}
 
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("Book :");
+		sb.append(isbn);
+		sb.append("\n\t");
+		sb.append("Title: "+title);
+		
+		sb.append("\n\t");
+		sb.append("Copy number: "+copyNum);
+		
+		sb.append("\n\t");
+		sb.append("Member ID: "+memberId);
+		
+		sb.append("\n\t");
+		sb.append("Member Name: "+name);
+		
+		sb.append("\n\t");
+		sb.append("Checkout Date: "+outDate);
+		
+		sb.append("\n\t");
+		sb.append("Due Date: "+dueDate);
+		
+		sb.append("\n\t");
+		sb.append("Returned?: "+hasReturned);
+		sb.append("\n\t");
+		sb.append("Fine: "+fineAmount);
+		sb.append("\n\t");
+		sb.append("Returned Date: "+returnedDate);
+		return sb.toString();
+	}
 	
 }
